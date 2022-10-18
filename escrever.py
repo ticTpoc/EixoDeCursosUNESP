@@ -8,6 +8,8 @@ import openpyxl
 from openpyxl import Workbook, load_workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import Font
+from openpyxl.styles import PatternFill
+
 
 #beautifulsoup
 from bs4 import BeautifulSoup
@@ -144,11 +146,13 @@ for ciencia in dados:
             media_piso = 0
         
         #cria um novo dicionário com os valores prontos para o EXCEL
-        newdados.update({profissao_dados:{"piso":media_piso,"teto":media_teto,"curso":curso}})
+        newdados.update({profissao_dados:{"piso":media_piso,"teto":media_teto,"curso":curso,"ciencia":ciencia}})
             
         #reseta as listas
         lista_piso = []
         lista_teto = []
+
+       
        
         
         
@@ -156,16 +160,22 @@ for ciencia in dados:
         
 #------------------EXCEL-------------------
 #criar o cabeçalho do excel
-ws.append(["Curso","Profissão","Piso salarial","Teto salarial"])
+ws.append(["ID","Ciência","Curso","Piso salarial","Teto salarial"])
+
+#contador de posições para cada curso
+contador = 0
 #loop de cada uma das profissões dos dados
 for key in newdados:
     profissao_excel = str(key)
     piso_excel = newdados[key]['piso']
     teto_excel = newdados[key]['teto']
     curso_excel = newdados[key]['curso']
-    #colocar os dados na tabela do excel
-    ws.append([curso_excel,profissao_excel,piso_excel,teto_excel])
+    ciencia_excel = newdados[key]['ciencia']
+    contador+=1
+    #colocar os dados na tabela do excel               
+    ws.append([contador,ciencia_excel,curso_excel,piso_excel,teto_excel])
         #print(profissao +" "+ licenciatura)
 
 
 wb.save('escrever.xlsx')
+print("cabou")

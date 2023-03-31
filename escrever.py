@@ -23,6 +23,7 @@ import statistics
 wb = Workbook()
 ws = wb.active
 ws.title = "escrever"
+print("inicio")
 
 #--------------------DADOS--------------------
 
@@ -104,6 +105,9 @@ newdados = {}
 
 
 #-----------------WEBSCRAPING-----------------------
+#definindo contador de profissões
+count = 0
+
 #pesquisa dentro dos dados e faz loop para cada profissão
 for ciencia in dados:
     for curso in dados[ciencia]:
@@ -118,10 +122,15 @@ for ciencia in dados:
         #procurar a profissão especifica
         profissoes = tabela_sopa.find_all('td',attrs={'data-label': "Cargo"})
         
+        #--contador#
+        count+=1
+        print(count)
+        
         #define as listas
         lista_piso = []
         lista_teto = []
         for profissao in profissoes:
+           
             profissao_cargo = profissao.text
             profissao_pai = profissao.parent
             piso_salarial = profissao_pai.find('td', attrs={'data-label':"Piso Salarial"})
@@ -146,8 +155,10 @@ for ciencia in dados:
             media_piso = 0
         
         #cria um novo dicionário com os valores prontos para o EXCEL
+        
         newdados.update({profissao_dados:{"piso":media_piso,"teto":media_teto,"curso":curso,"ciencia":ciencia}})
-            
+        print("profissão adicionada")
+
         #reseta as listas
         lista_piso = []
         lista_teto = []
